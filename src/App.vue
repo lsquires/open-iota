@@ -80,9 +80,9 @@ export default {
         'http://node01.iotatoken.nl:14265'
       ],
       iota: {
-        status: 'Please choose a node',
+        status: '',
         link: null,
-        provider: '',
+        provider: 'http://iota.bitfinex.com:80',
         connected: false,
         latestMilestoneIndex: 0,
         latestSolidSubtangleMilestoneIndex: 0
@@ -118,7 +118,7 @@ export default {
     }
   },
   mounted () {
-    //this.connectToIOTA()
+    this.connectToIOTA()
   }
 }
 </script>

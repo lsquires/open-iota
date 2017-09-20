@@ -6,20 +6,23 @@
           <h1 class="title is-2">Search</h1>
           <div class="container">
             <form class="has-text-centered">
-              <b-field>
+              <b-field position="is-centered" :message="isValidSearch ? '' : 'Invalid address/hash/tag'">
+                <b-field :type="isValidSearch ? '' : 'is-danger'">
                 <b-select placeholder="Type" v-model="searchType">
                   <option>Any</option>
                   <option>Tx</option>
                   <option>Address</option>
                   <option>Bundle</option>
+                  <option>Tag</option>
                 </b-select>
-                <b-input placeholder="Hash / Address / Bundle ..."
-                         type="search"
-                expanded v-model="searchInput">
-                </b-input>
-                <p class="control">
-                  <button class="button is-success" :disabled="iota === null" type="submit" :submit="searchNow" @click="searchNow">Search</button>
-                </p>
+
+                  <b-input placeholder="Hash / Address / Bundle ..."
+                  expanded type="search" v-model="searchInput">
+                  </b-input>
+
+
+                  <button class="button is-success" :disabled="iota === null" type="submit" :submit.prevent="searchNow" @click="searchNow">Search</button>
+                </b-field>
               </b-field>
             </form>
           </div>
@@ -34,10 +37,12 @@
 
 <script>
 import Search from '@/components/Search'
+import BField from '../../node_modules/buefy/src/components/field/Field.vue'
 
 export default {
   name: 'home',
   components: {
+    BField,
     Search
   },
   props: ['iota'],
@@ -53,23 +58,33 @@ export default {
   },
   methods: {
     searchNow () {
-      this.$router.push({ path: `/search/${this.searchType}/${this.searchInput}` })
-    },
-    clicked () {
-      console.log('clicked')
-      this.number = 100
-      this.number2 = 101
+      this.$router.push({ path: `/search/${this.searchType.toLowerCase()}/${this.searchInput}` })
     }
   },
-  asyncComputed: {
-    ausername: {
-      get () {
-        const total = this.number + 1
-        return new Promise(resolve =>
-          setTimeout(() => resolve(total), 1000)
-        )
+  computed: {
+    isValidSearch () {
+      if(!this.searchInput) {
+        return true
+      }
+      switch(this.searchType.toLowerCase()) {
+        case "tx":
+          return this.iota.valid.isHash(this.searchInput)
+        case "bundle":
+          return this.iota.valid.isHash(this.searchInput)
+        case "address":
+          return this.iota.valid.isAddress(this.searchInput)
+        case "tag":
+          return this.iota.valid.isTrytes(this.searchInput, 27)
+        case "any":
+          return this.iota.valid.isTrytes(this.searchInput) &&
+            (this.searchInput.length === 27 || this.searchInput.length === 81 ||this.searchInput.length === 90)
+        default:
+          return false
       }
     }
+  },
+  mounted () {
+    this.searchInput = this.$route.params.hash
   }
 }
 </script>
