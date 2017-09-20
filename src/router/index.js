@@ -10,12 +10,18 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
-    },
-    {
-      path: '/search/:type/:hash',
-      name: 'Search',
-      component: Search
+      component: Home,
+      children: [
+        {
+          path: 'search/:type/:hash',
+          component: Search,
+          props: true
+        },
+        {
+          path: 'search/*',
+          redirect: '/'
+        }
+      ]
     }
   ]
 })

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="hero is-medium is-primary">
-      <div class="hero-body">
+    <div class="hero is-primary" :class="$route.name === 'Home' ? 'is-large': 'is-small'">
+      <div class="hero-body sizeable">
         <div class="container has-text-centered">
-          <h1 class="title">Search</h1>
+          <h1 class="title is-2">Search</h1>
           <div class="container">
-            <div class="has-text-centered">
+            <form class="has-text-centered">
               <b-field>
                 <b-select placeholder="Type" v-model="searchType">
                   <option>Any</option>
@@ -15,32 +15,46 @@
                 </b-select>
                 <b-input placeholder="Hash / Address / Bundle ..."
                          type="search"
-                expanded>
+                expanded v-model="searchInput">
                 </b-input>
                 <p class="control">
-                  <button class="button is-success">Search</button>
+                  <button class="button is-success" :disabled="iota === null" type="submit" :submit="searchNow" @click="searchNow">Search</button>
                 </p>
               </b-field>
-            </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
+
+    <router-view :iota="iota"></router-view>
+
   </div>
 </template>
 
 <script>
+import Search from '@/components/Search'
+
 export default {
   name: 'home',
+  components: {
+    Search
+  },
+  props: ['iota'],
   data () {
     return {
       msg: 'Welcome to Your Vue.js PWA',
       number: 1,
       number2: 2,
-      searchType: 'Any'
+      searchType: 'Any',
+      search: false,
+      searchInput: ''
     }
   },
   methods: {
+    searchNow () {
+      this.$router.push({ path: `/search/${this.searchType}/${this.searchInput}` })
+    },
     clicked () {
       console.log('clicked')
       this.number = 100
@@ -60,23 +74,8 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #35495E;
+<style scoped>
+.sizeable {
+  transition: all ease .25s;
 }
 </style>
