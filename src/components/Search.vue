@@ -2,21 +2,15 @@
   <div class="container is-loading">
     <div v-if="!isLoading">
       <section class="section">
-        <h1 class="title is-4">Results for {{ resultType }}: {{ hash }}</h1>
-        <h1 class="subtitle is-5">Found {{ stringNumberOfResults }}</h1>
+        <h1 class="subtitle is-6">Found {{ stringNumberOfResults }}</h1>
         <hr>
-
-        <div v-for="tx in results">
-          <div v-if="tx.error">
-            {{ tx.error }}
-          </div>
-          <div v-else>
-            Hash: {{tx.hash}}
-            Branch: {{tx.branchTransaction}}
-            Address: {{tx.address}}
-            Nonce: {{tx.nonce}}
-            Tag: {{tx.tag}}
-          </div>
+        <div v-if="false">
+        </div>
+        <div v-else>
+          <search-tx v-if="resultType === 'tx'" :iota="iota" :hash="hash" :results="results"></search-tx>
+          <search-tx v-if="resultType === 'tag'" :iota="iota" :hash="hash" :results="results"></search-tx>
+          <search-bundle v-if="resultType === 'bundle'" :iota="iota" :hash="hash" :results="results"></search-bundle>
+          <search-address v-if="resultType === 'address'" :iota="iota" :hash="hash" :results="results"></search-address>
         </div>
       </section>
     </div>
@@ -27,9 +21,18 @@
 </template>
 
 <script>
+
+  import SearchTx from '@/components/searchresults/tx.vue'
+  import SearchBundle from '@/components/searchresults/bundle'
+  import SearchAddress from '@/components/searchresults/address'
+
   export default {
-    name: 'search',
     props: ['iota', 'hash', 'type'],
+    components: {
+      SearchTx,
+      SearchBundle,
+      SearchAddress
+    },
     data () {
       return {
         resultType: '',

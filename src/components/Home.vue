@@ -36,13 +36,8 @@
 </template>
 
 <script>
-import Search from '@/components/Search'
-
 export default {
   name: 'home',
-  components: {
-    Search
-  },
   props: ['iota'],
   data () {
     return {
