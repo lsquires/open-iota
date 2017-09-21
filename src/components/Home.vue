@@ -37,22 +37,16 @@
 
 <script>
 import Search from '@/components/Search'
-import BField from '../../node_modules/buefy/src/components/field/Field.vue'
 
 export default {
   name: 'home',
   components: {
-    BField,
     Search
   },
   props: ['iota'],
   data () {
     return {
-      msg: 'Welcome to Your Vue.js PWA',
-      number: 1,
-      number2: 2,
       searchType: 'Any',
-      search: false,
       searchInput: ''
     }
   },
