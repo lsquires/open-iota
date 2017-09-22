@@ -2,21 +2,16 @@
   <div>
     <ul v-for="(tx, index) in results">
       <li>
-        <b-panel collapsible :open="inBundle" has-custom-template>
+        <b-panel collapsible :open="!inBundle" has-custom-template>
             <span slot="header">
               <span><b-tag :type="txStatus(index) | toStatusType" style="float: right">{{ txStatus(index) | toStatus
                 }}</b-tag></span>
-              <span class="title is-5">Transaction</span>
-              <span class="subtitle is-6">{{ tx.hash }}</span>
+              <span class="title is-5 is-marginless" style="display:inline-block;">Transaction {{ bundleStatus(tx) }}</span>
               <br>
-              <span class="subtitle is-6">Address: {{ tx.address }}</span>
+              <span class="subtitle is-6" style="display:inline-block; width: calc(100% - 24px)">{{ tx.hash }}</span>
             </span>
-
-
           <tx-property :tx="tx"></tx-property>
-
         </b-panel>
-
       </li>
     </ul>
   </div>
@@ -56,11 +51,9 @@
         } else {
           return this.asyncTxStatus[index]
         }
-      }
-    },
-    computed: {
-      tableData () {
-
+      },
+      bundleStatus (tx) {
+        return tx.lastIndex === 0 ? '' : `(${tx.currentIndex}/${tx.lastIndex})`
       }
     },
     asyncComputed: {

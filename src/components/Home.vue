@@ -16,7 +16,7 @@
                     <option>Tag</option>
                   </b-select>
 
-                  <b-input placeholder="Hash / Address / Bundle ..."
+                  <b-input placeholder="Hash / Address / Bundle ..." spellcheck="false"
                            expanded type="search" v-model="searchInput">
                   </b-input>
 
@@ -100,7 +100,12 @@
       }
     },
     mounted () {
-      this.searchInput = this.$route.params.hash
+
+    },
+    beforeRouteUpdate (to, from, next) {
+      this.searchInput = ''
+      this.searchType =  'Any'
+      next()
     }
   }
 </script>

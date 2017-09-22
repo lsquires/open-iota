@@ -2,11 +2,13 @@
   <div class="container is-loading">
     <div v-if="!isLoading">
       <section class="section">
-        <h1 class="subtitle is-6">Found {{ stringNumberOfResults }}</h1>
-        <hr>
-        <div v-if="false">
+        <div v-if="searchFailed">
+          <h1 class="subtitle is-6">Nothing found / node refused to answer.</h1>
+          <hr>
         </div>
         <div v-else>
+          <h1 class="subtitle is-6">Found {{ stringNumberOfResults }}</h1>
+          <hr>
           <search-tx v-if="resultType === 'tx'" :iota="iota" :results="results"></search-tx>
           <search-tx v-if="resultType === 'tag'" :iota="iota" :results="results"></search-tx>
           <search-bundle v-if="resultType === 'bundle'" :iota="iota" :hash="hash" :results="results"></search-bundle>
@@ -36,7 +38,8 @@
     data () {
       return {
         resultType: '',
-        isLoading: true
+        isLoading: true,
+        searchFailed: false
       }
     },
     computed: {
@@ -60,7 +63,8 @@
           return new Promise((resolve, reject) => {
             this.iota.api.getTransactionsObjects(queryObject.hashes, (err, res) => {
               this.isLoading = false
-              if (err) {
+              if (err || res.length <= 0 || res[0].hash === '999999999999999999999999999999999999999999999999999999999999999999999999999999999') {
+                this.searchFailed = true
                 resolve([{error: 'No transactions found'}])
               }
               resolve(res)
@@ -70,7 +74,8 @@
           return new Promise((resolve, reject) => {
             this.iota.api.findTransactionObjects(queryObject, (err, res) => {
               this.isLoading = false
-              if (err) {
+              if (err || res.length <= 0 || res[0].hash === '999999999999999999999999999999999999999999999999999999999999999999999999999999999') {
+                this.searchFailed = true
                 resolve([{error: 'No transactions found'}])
               }
               resolve(res)
@@ -85,6 +90,7 @@
             this.iota.api.findTransactionObjects({tags: [hash]}, (err, res) => {
               this.isLoading = false
               if (err || res.length <= 0 || res[0].hash === '999999999999999999999999999999999999999999999999999999999999999999999999999999999') {
+                this.searchFailed = true
                 return resolve([])
               }
               this.resultType = 'tag'
@@ -102,6 +108,7 @@
                     this.iota.api.findTransactionObjects({bundles: [hash]}, (err, res) => {
                       this.isLoading = false
                       if (err || res.length <= 0 || res[0].hash === '999999999999999999999999999999999999999999999999999999999999999999999999999999999') {
+                        this.searchFailed = true
                         return resolve([])
                       }
                       console.log(res)
@@ -129,6 +136,7 @@
     asyncComputed: {
       results () {
         this.isLoading = true
+        this.searchFailed = false
         const hash = this.hash
         const type = this.type
         this.resultType = type
