@@ -7,8 +7,8 @@
         <div v-if="false">
         </div>
         <div v-else>
-          <search-tx v-if="resultType === 'tx'" :iota="iota" :hash="hash" :results="results"></search-tx>
-          <search-tx v-if="resultType === 'tag'" :iota="iota" :hash="hash" :results="results"></search-tx>
+          <search-tx v-if="resultType === 'tx'" :iota="iota" :results="results"></search-tx>
+          <search-tx v-if="resultType === 'tag'" :iota="iota" :results="results"></search-tx>
           <search-bundle v-if="resultType === 'bundle'" :iota="iota" :hash="hash" :results="results"></search-bundle>
           <search-address v-if="resultType === 'address'" :iota="iota" :hash="hash" :results="results"></search-address>
         </div>
@@ -82,7 +82,6 @@
         return new Promise((resolve, reject) => {
 
           if (hash.length === 27) {
-
             this.iota.api.findTransactionObjects({tags: [hash]}, (err, res) => {
               this.isLoading = false
               if (err || res.length <= 0 || res[0].hash === '999999999999999999999999999999999999999999999999999999999999999999999999999999999') {
