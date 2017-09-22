@@ -3,7 +3,7 @@
     <div class="panel-block" v-for="row in tableData">
 
       <p>{{row.name}}</p>
-      <p >{{row.value}}</p>
+      <p>{{row.value}}</p>
 
     </div>
   </div>
@@ -18,10 +18,12 @@
     props: ['tx'],
     computed: {
       tableData () {
-        return Object.keys(this.tx).map((key) => {return {
-          name: key,
-          value: this.tx[key]
-        }})
+        return Object.keys(this.tx).map((key) => {
+          return {
+            name: key,
+            value: this.tx[key]
+          }
+        })
       }
     }
   }

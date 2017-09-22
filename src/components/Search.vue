@@ -44,7 +44,7 @@
         return this.results ? this.results.length : 0
       },
       stringNumberOfResults () {
-        switch(this.numberOfResults) {
+        switch (this.numberOfResults) {
           case 0:
             return 'no entries'
           case 1:
