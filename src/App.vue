@@ -19,12 +19,12 @@
 
           </div>
           <div class="navbar-end">
-            <router-link to="/github" class="navbar-item">
+            <a href="https://github.com/lsquires/open-iota" class="navbar-item">
               <span class="icon">
                 <b-icon icon="library_books" size="is-small"></b-icon>
               </span>
               <span>Github</span>
-            </router-link>
+            </a>
             <div class="navbar-item">
               <b-dropdown @change="connectToIOTA" v-model="iota.provider" position="is-bottom-left">
 
