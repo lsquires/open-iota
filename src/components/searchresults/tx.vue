@@ -8,7 +8,10 @@
                 }}</b-tag></span>
               <span class="title is-5 is-marginless" style="display:inline-block;">Transaction {{ bundleStatus(tx) }}</span>
               <br>
+              <span v-if="isValueTransfer(tx)"><b-tag :type="valueType(tx)" style="float: right">{{ toStringValue(tx)
+                }}</b-tag></span>
               <span class="subtitle is-6" style="display:inline-block; width: calc(100% - 24px)">{{ tx.hash }}</span>
+
             </span>
           <tx-property :tx="tx"></tx-property>
         </b-panel>
@@ -44,7 +47,34 @@
         }
       }
     },
+    computed: {
+      isValueTransfer (tx) {
+        return tx.value !== 0
+      }
+    },
     methods: {
+      toStringValue (tx) {
+        if(tx.value > 0) {
+          return "IN" + toUnits(tx.value, true)
+        } else {
+          return "OUT" + toUnits(-tx.value, true)
+        }
+      },
+      toUnits(val, short) {
+        const units = ['i','Ki','Mi','Gi','Ti','Pi']
+        const unit = units[((''+val).length - 1) / 3]
+        let num = iota.utils.convertUnits(val, 'i', unit)
+        if(short) {
+          num = num.toFixed(4 - (Math.round(num) + '').length)
+        }
+        return `${num} ${unit} ~($${toUSD(val)})`
+      },
+      toUSD(val) {
+        return 5
+      },
+      valueType(tx) {
+        return tx.value > 0 ? 'is-success' : 'is-danger'
+      },
       txStatus (index) {
         if (this.inBundle) {
           return this.overallStatus
@@ -53,7 +83,7 @@
         }
       },
       bundleStatus (tx) {
-        return tx.lastIndex === 0 ? '' : `(${tx.currentIndex}/${tx.lastIndex})`
+        return tx.lastIndex === 0 ? '' : `(${tx.currentIndex + 1}/${tx.lastIndex + 1})`
       }
     },
     asyncComputed: {

@@ -1,19 +1,29 @@
 <template>
-    <div>
-      <search-tx :iota="iota" :results="results" :inBundle="true"></search-tx>
+  <div>
+    <search-tx :iota="iota" :results="results" :inBundle="true"></search-tx>
+    <b-panel collapsible :open="!isClosed" has-custom-template>
+      <span slot="header">
+        <span><b-tag :type="bundleStatus | toStatusType" style="float: right">{{ bundleStatus | toStatus
+          }}</b-tag></span>
+        <span class="title is-5 is-marginless" style="display:inline-block;">Transaction</span>
+        <br>
+        <span class="subtitle is-6" style="display:inline-block; width: calc(100% - 24px)">{{ tx.hash }}</span>
+      </span>
 
-      <!--b-panel collapsible :open="!isClosed" has-custom-template>
-            <span slot="header">
-              <span><b-tag :type="txStatus(index) | toStatusType" style="float: right">{{ txStatus(index) | toStatus
-                }}</b-tag></span>
-              <span class="title is-5 is-marginless" style="display:inline-block;">Transaction</span>
-              <br>
-              <span class="subtitle is-6" style="display:inline-block; width: calc(100% - 24px)">{{ tx.hash }}</span>
-            </span>
-        <tx-property :tx="tx"></tx-property>
-      </b-panel-->
+      <div>
+        <div class="panel-block txrow">
+          <h1 class="title is-5">Inputs:</h1>
+        </div>
+        <search-tx :results="inputTxs" :iota="iota" :overallStatus="bundleStatus" :inBundle="true"></search-tx>
 
-    </div>
+        <div class="panel-block txrow">
+          <h1 class="title is-5">Outputs:</h1>
+        </div>
+        <search-tx :results="outputTxs" :iota="iota" :overallStatus="bundleStatus" :inBundle="true"></search-tx>
+      </div>
+    </b-panel>
+
+  </div>
 </template>
 
 <script>
@@ -21,12 +31,62 @@
 
   export default {
     name: 'search-bundle',
-    props: ['iota', 'results','isClosed'],
+    props: ['iota', 'results', 'isClosed'],
     components: {
       SearchTx
     },
     computed: {
-
+      bundleStatus () {
+        return this.asyncTxStatus[0]
+      },
+      outputTxs () {
+        return this.results.filter(tx => tx.value > 0)
+      },
+      inputTxs () {
+        return this.results.filter(tx => tx.value <= 0)
+      }
+    },
+    methods: {
+      toStatus (tx) {
+        if (typeof tx === 'undefined') {
+          return 'Unknown'
+        } else {
+          return tx ? 'Confirmed' : 'Pending'
+        }
+      },
+      toStatusType (tx) {
+        if (typeof tx === 'undefined') {
+          return 'is-warning'
+        } else {
+          return tx ? 'is-success' : 'is-info'
+        }
+      }
+    },
+    asyncComputed: {
+      asyncTxStatus: {
+        lazy: true,
+        get () {
+          return new Promise((resolve, reject) => {
+            if (this.results.length === 0) {
+              return resolve([])
+            } else {
+              this.iota.api.getLatestInclusion(this.results[0].hash, (err, res) => {
+                if (err) {
+                  return resolve()
+                }
+                return resolve(res)
+              })
+            }
+          })
+        },
+        default: []
+      }
     }
   }
 </script>
+
+<style>
+  .txrow {
+    display: block;
+  }
+</style>
