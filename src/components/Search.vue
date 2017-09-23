@@ -7,10 +7,10 @@
           <hr>
         </div>
         <div v-else>
-          <h1 class="subtitle is-6">Found {{ stringNumberOfResults }}</h1>
+          <h1 class="subtitle is-6">Found {{ stringNumberOfResults }} for {{ hash }} ({{resultType}})</h1>
           <hr>
           <search-tx v-if="resultType === 'tx'" :iota="iota" :results="results"></search-tx>
-          <search-tx v-if="resultType === 'tag'" :iota="iota" :results="results"></search-tx>
+          <search-tx v-if="resultType === 'tag'" :iota="iota" :isCollapsed="true" :results="results"></search-tx>
           <search-bundle v-if="resultType === 'bundle'" :iota="iota" :hash="hash" :results="results"></search-bundle>
           <search-address v-if="resultType === 'address'" :iota="iota" :hash="hash" :results="results"></search-address>
         </div>

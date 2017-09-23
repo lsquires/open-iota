@@ -2,7 +2,7 @@
   <div>
     <ul v-for="(tx, index) in results">
       <li>
-        <b-panel collapsible :open="!inBundle" has-custom-template>
+        <b-panel collapsible :open="!inBundle && !isCollapsed" has-custom-template>
             <span slot="header">
               <span><b-tag :type="txStatus(index) | toStatusType" style="float: right">{{ txStatus(index) | toStatus
                 }}</b-tag></span>
@@ -27,7 +27,7 @@
   export default {
     components: {TxProperty},
     name: 'search-tx',
-    props: ['iota', 'results', 'overallStatus', 'inBundle'],
+    props: ['iota', 'results', 'overallStatus', 'inBundle', 'isCollapsed'],
     filters: {
       shorten (str) {
         return str.length > 40 ? str.slice(0, 40) + ' . . .' : str
@@ -47,12 +47,10 @@
         }
       }
     },
-    computed: {
+    methods: {
       isValueTransfer (tx) {
         return tx.value !== 0
-      }
-    },
-    methods: {
+      },
       toStringValue (tx) {
         if(tx.value > 0) {
           return "IN" + toUnits(tx.value, true)
