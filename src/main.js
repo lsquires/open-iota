@@ -11,6 +11,7 @@ import IOTA from 'iota.lib.js'
 Vue.use(IOTA)
 Vue.use(Buefy)
 Vue.use(AsyncComputed)
+Vue.use(require('vue-moment'));
 
 Vue.config.productionTip = false
 

@@ -4,7 +4,9 @@
       <nav class="navbar">
         <div class="navbar-brand">
           <router-link :to="{ name: 'Home' }" class="navbar-item">
-            <img src="./assets/logo.png" alt="logo" width="112" height="28">
+            <img src="./assets/logo.png" alt="logo" width="28" height="28" style="margin-right: 6px">
+            <h1 class="heading title"></h1>
+            <h1 class="heading title is-4">Open IOTA</h1>
           </router-link>
           <div class="navbar-burger" v-bind:class="{ 'is-active': navVisible }" @click="navVisible = !navVisible">
             <span></span>
@@ -18,7 +20,9 @@
           </div>
           <div class="navbar-end">
             <router-link to="/github" class="navbar-item">
-              <b-icon pack="fa" icon="github"></b-icon>
+              <span class="icon">
+                <b-icon icon="library_books" size="is-small"></b-icon>
+              </span>
               <span>Github</span>
             </router-link>
             <div class="navbar-item">

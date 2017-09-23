@@ -43,6 +43,11 @@
       }
     },
     computed: {
+      results () {
+        return this.resultsUnsorted.sort((a, b) => {
+          return a.bundle === b.bundle ? b.currentIndex - a.currentIndex : b.timestamp - a.timestamp
+        })
+      },
       numberOfResults () {
         return this.results ? this.results.length : 0
       },
@@ -134,29 +139,32 @@
       }
     },
     asyncComputed: {
-      results () {
-        this.isLoading = true
-        this.searchFailed = false
-        const hash = this.hash
-        const type = this.type
-        this.resultType = type
-        switch (type) {
-          case 'tx': {
-            return this.makeQuery({hashes: [hash]})
+      resultsUnsorted: {
+        get () {
+          this.isLoading = true
+          this.searchFailed = false
+          const hash = this.hash
+          const type = this.type
+          this.resultType = type
+          switch (type) {
+            case 'tx': {
+              return this.makeQuery({hashes: [hash]})
+            }
+            case 'bundle': {
+              return this.makeQuery({bundles: [hash]})
+            }
+            case 'tag': {
+              return this.makeQuery({tags: [hash]})
+            }
+            case 'address': {
+              return this.makeQuery({addresses: [hash]})
+            }
+            default: {
+              return this.makeAnyQuery(hash)
+            }
           }
-          case 'bundle': {
-            return this.makeQuery({bundles: [hash]})
-          }
-          case 'tag': {
-            return this.makeQuery({tags: [hash]})
-          }
-          case 'address': {
-            return this.makeQuery({addresses: [hash]})
-          }
-          default: {
-            return this.makeAnyQuery(hash)
-          }
-        }
+        },
+        default: []
       }
     }
   }

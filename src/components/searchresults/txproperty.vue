@@ -56,7 +56,7 @@
           Timestamp
         </div>
         <div class="column is-three-quarters field control txvalue">
-          {{tx.timestamp}}
+          {{(tx.timestamp * 1000) | moment("MMMM Do YYYY, h:mm:ss a") }} ({{(tx.timestamp * 1000) | moment("from","now") }})
         </div>
       </div>
     </div>
