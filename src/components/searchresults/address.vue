@@ -71,8 +71,6 @@
           get () {
           return new Promise((resolve, reject) => {
             this.iota.api.getBalances([this.hash], 100, (err, res) => {
-              console.log(err)
-              console.log(res)
               if (err) {
                 return resolve([])
               }

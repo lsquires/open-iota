@@ -72,7 +72,6 @@
       asyncTxStatus: {
         lazy: true,
         get () {
-          console.log('get')
           return new Promise((resolve, reject) => {
             this.iota.api.getLatestInclusion(this.results.map((a) => a.hash), (err, res) => {
               if (err) {
@@ -91,5 +90,21 @@
 <style scoped>
   .tag {
     font-size: 0.9rem;
+  }
+</style>
+<style>
+  .panel-content[style*="display: none;"] {
+    max-height: 0
+  }
+  .panel-content.fade-enter-active {
+    max-height: 10000px
+  }
+  .panel-content.fade-leave-active {
+    max-height: 0
+  }
+
+  .panel-content {
+    transition: all 0.2s ease;
+    max-height: 10000px
   }
 </style>

@@ -68,6 +68,15 @@
                     </div>
                   </b-dropdown-item>
                 </div>
+                <b-dropdown-item custom>
+                  <h1 class="title is-6">Custom Provider:</h1>
+                  <b-field class="subtitle">
+                    <b-input expanded spellcheck="false" v-model.sync="customProvider"></b-input>
+                    <p class="control">
+                      <button class="button is-primary" @click="addProvider">Add</button>
+                    </p>
+                  </b-field>
+                </b-dropdown-item>
               </b-dropdown>
 
             </div>
@@ -115,13 +124,18 @@
     data () {
       return {
         navVisible: false,
+        customProvider: '',
         donationAddress: 'ASAHFAIO73FGUI32Y2QRHF23UIHF72FU283YR8HF2987',
         providerList: [
           'http://iota.bitfinex.com:80',
           'http://service.iotasupport.com:14265',
           'http://eugene.iota.community:14265',
           'http://eugene.iotasupport.com:14999',
-          'http://node01.iotatoken.nl:14265'
+          'http://node01.iotatoken.nl:14265',
+          'http://node02.iotatoken.nl:14265',
+          'http://node03.iotatoken.nl:14265',
+          'http://mainnet.necropaz.com:14500',
+          'http://node.lukaseder.de:14265'
         ],
         iota: {
           status: '',
@@ -141,6 +155,12 @@
       }
     },
     methods: {
+      addProvider () {
+        if(this.customProvider) {
+          this.providerList.push(this.customProvider)
+          this.customProvider = ''
+        }
+      },
       copy (value) {
         // TODO
       },
@@ -158,7 +178,6 @@
           if (err) {
             this.iota.status = 'Failed'
           } else {
-            console.log(success)
             this.iota.status = 'Connected'
             this.iota.connected = true
             this.iota.latestMilestone = success.latestMilestone

@@ -116,7 +116,6 @@
                         this.searchFailed = true
                         return resolve([])
                       }
-                      console.log(res)
                       this.resultType = 'bundle'
                       return resolve(res)
                     })
