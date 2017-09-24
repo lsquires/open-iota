@@ -94,7 +94,7 @@
             Built using VueJS + iota.lib.js + buefy
           </div>
           <div class="column">
-            Code open source on github
+            Code open source on github, deployed on netlify
           </div>
           <div class="column">
             Created by Laurence Squires
