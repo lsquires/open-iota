@@ -91,7 +91,7 @@
       makeAnyQuery (hash) {
         return new Promise((resolve, reject) => {
 
-          if (hash.length === 27) {
+          if (hash.length <= 27) {
             this.iota.api.findTransactionObjects({tags: [hash]}, (err, res) => {
               this.isLoading = false
               if (err || res.length <= 0 || res[0].hash === '999999999999999999999999999999999999999999999999999999999999999999999999999999999') {

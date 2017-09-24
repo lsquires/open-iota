@@ -16,7 +16,7 @@
                     <option>Tag</option>
                   </b-select>
 
-                  <b-input placeholder="Hash / Address / Bundle ..." spellcheck="false"
+                  <b-input placeholder="Hash / Address / Bundle / Tag ..." spellcheck="false"
                            expanded type="search" v-model="searchInput">
                   </b-input>
 
@@ -90,10 +90,10 @@
           case 'address':
             return this.iota.valid.isAddress(this.searchInput)
           case 'tag':
-            return this.iota.valid.isTrytes(this.searchInput, 27)
+            return this.iota.valid.isTrytes(this.searchInput) && this.searchInput.length <= 27
           case 'any':
             return this.iota.valid.isTrytes(this.searchInput) &&
-              (this.searchInput.length === 27 || this.searchInput.length === 81 || this.searchInput.length === 90)
+              (this.searchInput.length <= 27 || this.searchInput.length === 81 || this.searchInput.length === 90)
           default:
             return false
         }

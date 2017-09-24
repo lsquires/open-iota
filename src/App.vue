@@ -89,21 +89,28 @@
 
     <footer class="footer">
       <div class="container">
-        <div class="columns has-text-centered">
+        <div class="columns">
           <div class="column">
-            Built using VueJS + iota.lib.js + buefy
+            <h1 class="heading title is-4">Open IOTA</h1>
+            <h1 class="subtitle is-6">Is a free, open-source project to provide a accessible and secure web wallet & explorer for IOTA</h1>
           </div>
           <div class="column">
-            Code open source on github, deployed on netlify
+            Code open source on github, deployed on surge.
+            To compile your own version, verify security or host it yourself see the github.
           </div>
           <div class="column">
-            Created by Laurence Squires
+            <p>Created by Laurence Squires</p>
+            <ul>
+              <li><a href="mailto:openiota@gmail.com">openiota@gmail.com</a></li>
+              <li><a href="https://github.com/lsquires/open-iota">Github</a></li>
+            </ul>
           </div>
         </div>
+        <h1 class="subtitle is-6">It guarantees security by providing you with the choice to connect to any node you wish, and you can check the source and build this webapp yourself if you desire.</h1>
 
         <div class="columns">
           <div class="column is-half is-offset-one-quarter">
-          <h1 class="title is-5">Donation Address</h1>
+          <h1 class="title is-5">Donation are always welcome! <3</h1>
           <b-field class="subtitle">
             <b-input expanded spellcheck="false" readonly :value="donationAddress"></b-input>
             <p class="control">
