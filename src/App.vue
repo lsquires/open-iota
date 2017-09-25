@@ -133,7 +133,7 @@
       return {
         navVisible: false,
         customProvider: '',
-        donationAddress: 'ASAHFAIO73FGUI32Y2QRHF23UIHF72FU283YR8HF2987',
+        donationAddress: 'Coming soon...',
         providerList: [
           'http://iota.bitfinex.com:80',
           'http://service.iotasupport.com:14265',
