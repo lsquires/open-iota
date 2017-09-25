@@ -5,7 +5,7 @@
         <div class="container has-text-centered">
           <h1 class="title is-2">Search</h1>
           <div class="container">
-            <form class="has-text-centered">
+            <form class="has-text-centered" @submit.prevent="searchNow">
               <b-field position="is-centered" :message="isValidSearch ? '' : 'Invalid address/hash/tag'">
                 <b-field :type="isValidSearch ? '' : 'is-danger'">
                   <b-select placeholder="Type" v-model="searchType">
@@ -21,8 +21,8 @@
                   </b-input>
 
 
-                  <button class="button is-primary is-outlined is-inverted" :disabled="iota === null" type="submit"
-                          :submit.prevent="searchNow" @click="searchNow">Search
+                  <button class="button is-primary is-outlined is-inverted" :disabled="iota === null" type="submit">
+                    Search
                   </button>
                 </b-field>
               </b-field>
