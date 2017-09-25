@@ -4,8 +4,10 @@
 
 [open-iota.surge.sh](open-iota.surge.sh)
 
-
+The Landing Page:
 ![Alt text](screenshots/screencapture-open-iota-surge-sh-1506348040261.png?raw=true "Landing Page")
+
+A Bundle:
 ![Alt text](screenshots/screencapture-localhost-8080-1506348260900.png?raw=true "A bundle view")
 
 This web wallet is designed for the IOTA network. It allows the user to access the network safely and securely from any device, the web app connects to a user configurable node and uses it to get all the infomation about the network. At no point will the users seed ever be exposed to the node or any other third party.
