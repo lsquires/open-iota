@@ -41,7 +41,7 @@
                   <b-field class="subtitle">
                     <b-input expanded spellcheck="false" readonly :value="iota.latestMilestone"></b-input>
                     <p class="control">
-                      <button class="button is-primary" @click="copy(iota.latestMilestone)">Copy</button>
+                      <button class="button is-primary" v-clipboard:copy="iota.latestMilestone">Copy</button>
                     </p>
                   </b-field>
                 </b-dropdown-item>
@@ -50,7 +50,7 @@
                   <b-field class="subtitle">
                     <b-input expanded spellcheck="false" readonly :value="iota.latestSolidMilestone"></b-input>
                     <p class="control">
-                      <button class="button is-primary" @click="copy(iota.latestSolidMilestone)">Copy</button>
+                      <button class="button is-primary" v-clipboard:copy="iota.latestSolidMilestone">Copy</button>
                     </p>
                   </b-field>
                 </b-dropdown-item>
@@ -114,7 +114,7 @@
           <b-field class="subtitle">
             <b-input expanded spellcheck="false" readonly :value="donationAddress"></b-input>
             <p class="control">
-              <button class="button is-primary" @click="copy(donationAddress)">Copy</button>
+              <button class="button is-primary"  v-clipboard:copy="donationAddress">Copy</button>
             </p>
           </b-field>
           </div>
@@ -168,9 +168,6 @@
           this.providerList.push(this.customProvider)
           this.customProvider = ''
         }
-      },
-      copy (value) {
-        // TODO
       },
       connectToIOTA () {
         this.iota.status = 'Connecting'
