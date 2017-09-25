@@ -45,7 +45,7 @@
           Value
         </div>
         <div class="column is-three-quarters field control txvalue">
-          {{tx.value}}
+          {{toUnits(tx.value, false, iota)}} ({{tx.value}})
         </div>
       </div>
     </div>
@@ -70,6 +70,17 @@
           <router-link :to="`/search/bundle/${tx.bundle}`">
             {{tx.bundle}}
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-block txrow">
+      <div class="columns">
+        <div class="column is-one-quarter content">
+          Current / Last Index
+        </div>
+        <div class="column is-three-quarters field control txvalue">
+          {{tx.currentIndex}} / {{tx.lastIndex}}
         </div>
       </div>
     </div>
@@ -129,16 +140,15 @@
   </div>
 </template>
 
-<
 
 
 <script>
-  import BTableColumn from '../../../node_modules/buefy/src/components/table/TableColumn.vue'
+  import ValueHelper from '../mixins/ValuesHelper';
 
   export default {
-    components: {BTableColumn},
     name: 'tx-property',
-    props: ['tx']
+    mixins: [ValueHelper],
+    props: ['tx', 'iota']
   }
 </script>
 

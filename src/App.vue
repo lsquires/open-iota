@@ -125,6 +125,7 @@
 </template>
 
 <script>
+  import IOTA from 'iota.lib.js'
 
   export default {
     name: 'app',

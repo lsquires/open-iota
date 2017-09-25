@@ -26,16 +26,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src')
-    },
-    mainFields: [
-      'module', // adds check for 'module'
-      'webpack',
-      'browser',
-      'web',
-      'browserify',
-      ['jam', 'main'],
-      'main',
-    ]
+    }
   },
   module: {
     rules: [

@@ -1,7 +1,4 @@
 module.exports = {
-  mounted () {
-    console.log("test")
-  },
   asyncComputed: {
     priceUSD: {
       get () {
@@ -20,13 +17,14 @@ module.exports = {
       }
     },
     toUnits(val, short, iota) {
+      val = Math.abs(val)
       const units = ['i','Ki','Mi','Gi','Ti','Pi']
       const unit = units[Math.floor(((''+val).length - 1) / 3)]
       let num = iota.utils.convertUnits(val, 'i', unit)
       let usd = this.toUSD(val)
       if(short) {
-        num = num.toFixed(3 - (Math.round(num) + '').length)
-        usd = usd.toFixed(3 - (Math.round(usd) + '').length)
+        num = num.toFixed(Math.max(0,3 - (Math.round(num) + '').length))
+        usd = usd.toFixed(Math.max(0,3 - (Math.round(usd) + '').length))
       }
 
       return `${num}${unit} ~$${usd}`

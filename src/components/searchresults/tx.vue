@@ -14,7 +14,7 @@
               <br>
               <span class="subtitle is-6" style="display:inline-block; width: calc(100% - 24px)">{{ tx.hash }}</span>
             </span>
-          <tx-property :tx="tx"></tx-property>
+          <tx-property :tx="tx" :iota="iota"></tx-property>
         </b-panel>
       </li>
     </ul>
@@ -74,6 +74,7 @@
         get () {
           return new Promise((resolve, reject) => {
             this.iota.api.getLatestInclusion(this.results.map((a) => a.hash), (err, res) => {
+              console.log(res)
               if (err) {
                 return resolve([])
               }

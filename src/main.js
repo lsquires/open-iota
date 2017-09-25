@@ -6,11 +6,9 @@ import router from './router'
 import AsyncComputed from 'vue-async-computed'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
-import IOTA from 'iota.lib.js'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-Vue.use(IOTA)
 Vue.use(Buefy)
 Vue.use(AsyncComputed)
 Vue.use(require('vue-moment'));
