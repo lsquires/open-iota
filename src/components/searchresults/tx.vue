@@ -46,7 +46,7 @@
         if (typeof tx === 'undefined') {
           return 'is-warning'
         } else {
-          return tx ? 'is-success' : 'is-info'
+          return tx ? 'is-info' : 'is-warning'
         }
       }
     },
@@ -74,7 +74,6 @@
         get () {
           return new Promise((resolve, reject) => {
             this.iota.api.getLatestInclusion(this.results.map((a) => a.hash), (err, res) => {
-              console.log(res)
               if (err) {
                 return resolve([])
               }

@@ -68,7 +68,7 @@
         if (typeof tx === 'undefined') {
           return 'is-warning'
         } else {
-          return tx ? 'is-success' : 'is-info'
+          return tx ? 'is-info' : 'is-warning'
         }
       }
     },

@@ -37,7 +37,7 @@
           <div class="container has-text-centered">
             <h1 class="title is-2">Import Wallet</h1>
             <div class="container has-text-centered">
-              <button class="button is-success is-inverted is-large is-outlined" :disabled="iota === null">Import
+              <button class="button is-success is-inverted is-large is-outlined" :disabled="iota === null" @click="wip">Import
               </button>
             </div>
           </div>
@@ -50,7 +50,7 @@
           <div class="container has-text-centered">
             <h1 class="title is-2">Create Wallet</h1>
             <div class="container has-text-centered">
-              <button class="button is-info is-inverted is-large is-outlined" :disabled="iota === null">Create</button>
+              <button class="button is-info is-inverted is-large is-outlined" :disabled="iota === null" @click="wip">Create</button>
             </div>
           </div>
         </div>
@@ -75,6 +75,13 @@
     methods: {
       searchNow () {
         this.$router.push({path: `/search/${this.searchType.toLowerCase()}/${this.searchInput}`})
+      },
+      wip () {
+        this.$toast.open({
+          message: 'This feature is still in development, you can help out on github though!',
+          type: 'is-primary',
+          duration: 4000,
+        })
       }
     },
     computed: {
