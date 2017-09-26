@@ -13,6 +13,8 @@ import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 Vue.use(Buefy)
 Vue.use(AsyncComputed)
+Vue.use(require('crypto'));
+Vue.use(require('aes-js'));
 Vue.use(require('vue-moment'));
 Vue.use(VueAxios, axios)
 

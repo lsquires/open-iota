@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="hero is-success is-bold"
-             :class="$route.name === 'Import' ? 'is-large' : 'is-small' ">
+             :class="$route.name === 'Import' ? 'is-medium' : 'is-small' ">
           <div class="hero-body sizeable">
             <div class="container has-text-centered" v-if="onHome">
               <h1 class="title is-2">Import Wallet</h1>

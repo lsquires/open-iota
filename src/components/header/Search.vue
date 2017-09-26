@@ -20,7 +20,7 @@
                              expanded type="search" v-model="searchInput">
                     </b-input>
 
-                    <button class="button is-primary is-outlined is-inverted" :disabled="iota === null" type="submit">
+                    <button class="button is-primary is-outlined is-inverted" :disabled="iota === null || searchInput === '' ||!isValidSearch" type="submit">
                       Search
                     </button>
                   </b-field>
