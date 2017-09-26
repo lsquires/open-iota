@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Search from '@/components/Search'
+import CreateWallet from '@/components/CreateWallet'
+import ImportWallet from '@/components/ImportWallet'
 
 Vue.use(Router)
 
@@ -13,13 +15,20 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: 'search/:type/:hash',
+          path: '/search/:type/:hash',
+          name: 'Search',
           component: Search,
           props: true
         },
         {
-          path: 'search/*',
-          redirect: '/'
+          path: '/create-wallet',
+          name: 'Create',
+          component: CreateWallet
+        },
+        {
+          path: '/import-wallet',
+          name: 'Import',
+          component: ImportWallet
         }
       ]
     }

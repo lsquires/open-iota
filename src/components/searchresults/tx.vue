@@ -10,9 +10,12 @@
                    <b-tag :type="txStatus(index) | toStatusType" style="float: right">{{ txStatus(index) | toStatus}}</b-tag>
                  </b-taglist>
               </span>
-              <span class="title is-5 is-marginless" style="display:inline-block;">Transaction {{ bundleStatus(tx) }}</span>
+              <span class="title is-5 is-marginless" style="display:inline-block;">Transaction
+              </span>
+
               <br>
-              <span class="subtitle is-6" style="display:inline-block; width: calc(100% - 24px)">{{ tx.hash }}</span>
+              <span class="subtitle is-6 is-marginless" style="display:inline-block; width: calc(100% - 24px)"> Hash: {{ tx.hash }}</span>
+              <span class="subtitle is-6 is-marginless" style="display:inline-block; width: calc(100% - 24px)">{{ bundleStatus(tx) }}</span>
             </span>
           <tx-property :tx="tx" :iota="iota"></tx-property>
         </b-panel>
@@ -65,7 +68,7 @@
         }
       },
       bundleStatus (tx) {
-        return tx.lastIndex === 0 ? '' : `(${tx.currentIndex + 1}/${tx.lastIndex + 1})`
+        return tx.lastIndex === 0 ? '' : `Bundle (${tx.currentIndex + 1}/${tx.lastIndex + 1}): ${tx.bundle}`
       }
     },
     asyncComputed: {
