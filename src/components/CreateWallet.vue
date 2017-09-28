@@ -101,7 +101,7 @@
             this.wallet.cipher.iv = cipherIV.toString('hex')
 
             this.wallet.type = 'OPEN IOTA'
-            this.wallet.version = 1
+            this.wallet.version = '1'
 
             const checksumAlgo = 'sha256'
             const hash = crypto.createHash(checksumAlgo)
