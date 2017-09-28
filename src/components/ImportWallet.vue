@@ -85,42 +85,48 @@
     },
     methods: {
       unlockWallet() {
+        this.failMessage = ''
         this.isLoading = true
         var crypto = require('crypto')
 
-        const key = crypto.pbkdf2Sync(this.userEntry,
-          Buffer.from(this.wallet.key.salt, 'hex'),  this.wallet.key.iter,
-          this.wallet.key.length,  this.wallet.key.algo);
+        crypto.pbkdf2(this.userEntry, Buffer.from(this.wallet.key.salt, 'hex'),
+          this.wallet.key.iter, this.wallet.key.length,
+          this.wallet.key.algo, (err, key) => {
+            if(err) {
+              this.isLoading = false;
+              this.failMessage = 'Unknown error, check console and report on github'
+              this.userEntry = ''
+              console.log(err)
+              return;
+            }
 
-        const hash = crypto.createHash('sha512')
-        hash.update(Buffer.concat([key, Buffer.from(this.wallet.cipher.text, 'hex')]))
-        const correct = (this.wallet.uuid === hash.digest('hex'))
-        if(correct) {
+            const hash = crypto.createHash(this.wallet.key.checksumAlgo)
+            hash.update(Buffer.concat([key, Buffer.from(this.wallet.cipher.text, 'hex')]))
+            const correct = (this.wallet.key.checksum === hash.digest('hex'))
+            if(correct) {
 
-          const decipher = crypto.createDecipheriv(this.wallet.cipher.algo,
-            key, Buffer.from(this.wallet.cipher.iv, 'hex'))
-          const seedBuffer = decipher.update(Buffer.from(this.wallet.cipher.text, 'hex'))
+              const decipher = crypto.createDecipheriv(this.wallet.cipher.algo,
+                key, Buffer.from(this.wallet.cipher.iv, 'hex'))
+              const seedBuffer = decipher.update(Buffer.from(this.wallet.cipher.text, 'hex'))
 
-          console.log("Deciphered: " + this.bufToSeed(seedBuffer))
-          this.isLoading = false
-        } else {
-          this.failMessage = 'Incorrect password'
-          this.userEntry = ''
-          this.isLoading = false
-        }
+              console.log("Deciphered: " + this.bufToSeed(seedBuffer))
+              this.isLoading = false
+            } else {
+              this.failMessage = 'Incorrect password'
+              this.userEntry = ''
+              this.isLoading = false
+            }
+          });
       },
       bufToSeed (buffer) {
         let alphabet  = '9ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
         let seed = ''
-        let index = 0;
         let current = 0;
-        while(seed.length < 81) {
-          current =+ buffer.readUInt8(index)
-          while(current >= 27) {
+        for(let i = 0; i < buffer.length && seed.length < 81; i++) {
+          current = buffer.readUInt8(i)
+          if(current < 243) {
             seed += alphabet[current % 27]
-            current = Math.floor(current / 27)
           }
-          index++;
         }
         return seed
       }

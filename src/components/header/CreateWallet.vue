@@ -9,8 +9,6 @@
               <router-link to="/create-wallet">
                 <button class="button is-info is-inverted is-large is-outlined" :disabled="iota === null">Create</button>
               </router-link>
-
-
             </div>
           </div>
           <transition name="fade">
