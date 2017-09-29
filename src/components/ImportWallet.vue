@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="container has-text-centered">
+    <div v-if="account.view">
+      <account-view :seed="account.seed" :iota="iota"></account-view>
+    </div>
+    <div class="container has-text-centered" v-else>
       <div class="content">
         <h1 class="title is-2">Import Wallet</h1>
         <h1 class="subtitle is-6">Choose your wallet and unlock it to view your balance, make transactions...</h1>
@@ -20,16 +23,13 @@
           </b-upload>
         </b-field>
       </div>
-    </div>
-    <div v-if="loaded" class="container has-text-centered">
-
-      <div class="content">
+      <div v-if="loaded" class="content">
         <h1 class="title is-2">Please enter your password</h1>
         <form class="has-text-centered" @submit.prevent="unlockWallet" >
-          <b-field position="is-centered" :type="isValidPassword || this.userEntry === '' ? '' : 'is-danger'"
+          <b-field position="is-centered" :type="isValidPassword || this.userWalletKey === '' ? '' : 'is-danger'"
                    :message="passwordMessage">
             <b-input placeholder="Type your wallet password"
-                     type="password" v-model="userEntry " password-reveal>
+                     type="password" v-model="userWalletKey " password-reveal>
             </b-input>
           </b-field>
           <b-field :message="failMessage">
@@ -41,23 +41,46 @@
           </b-field>
         </form>
       </div>
+
+      <h1 class="title has-text-centered is-4">OR</h1>
+      <form class="has-text-centered" @submit.prevent="seedGiven(userSeed)">
+        <b-field>
+          <b-input placeholder="Enter your seed" spellcheck="false"
+                   expanded v-model="userSeed">
+          </b-input>
+        </b-field>
+        <b-field :message="isValidSeed || userSeed === '' ? '' : 'Invalid seed'">
+            <button class="is-large button is-primary is-outlined is-inverted"
+                    :disabled="userSeed === '' || !isValidSeed" type="submit">
+              Submit
+            </button>
+        </b-field>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
 
+  import AccountView from '@/components/Account'
 
   export default {
     props: ['iota'],
-
+    components: {
+      AccountView
+    },
     data () {
       return {
         isLoading: false,
-        userEntry: '',
+        userWalletKey: '',
+        userSeed: '',
         droppedFile: [],
         wallet: {},
-        failMessage: ''
+        failMessage: '',
+        account: {
+          seed: '',
+          view: false
+        }
       }
     },
     watch: {
@@ -77,25 +100,32 @@
         return this.wallet && this.wallet.key && this.wallet.cipher || false
       },
       isValidPassword () {
-        return this.userEntry.length > 6
+        return this.userWalletKey.length > 6
       },
       passwordMessage () {
-        return this.isValidPassword || this.userEntry === '' ? '' : 'Password must be longer than 6 chars'
+        return this.isValidPassword || this.userWalletKey === '' ? '' : 'Password must be longer than 6 chars'
+      },
+      isValidSeed () {
+        return this.iota.valid.isTrytes(this.userSeed) && this.userSeed.length === 81
       }
     },
     methods: {
+      seedGiven(seed) {
+        this.account.view = true
+        this.account.seed = seed
+      },
       unlockWallet() {
         this.failMessage = ''
         this.isLoading = true
         var crypto = require('crypto')
 
-        crypto.pbkdf2(this.userEntry, Buffer.from(this.wallet.key.salt, 'hex'),
+        crypto.pbkdf2(this.userWalletKey, Buffer.from(this.wallet.key.salt, 'hex'),
           this.wallet.key.iter, this.wallet.key.length,
           this.wallet.key.algo, (err, key) => {
             if(err) {
               this.isLoading = false;
               this.failMessage = 'Unknown error, check console and report on github'
-              this.userEntry = ''
+              this.userWalletKey = ''
               console.log(err)
               return;
             }
@@ -110,10 +140,11 @@
               const seedBuffer = decipher.update(Buffer.from(this.wallet.cipher.text, 'hex'))
 
               console.log("Deciphered: " + this.bufToSeed(seedBuffer))
+              this.seedGiven(this.bufToSeed(seedBuffer))
               this.isLoading = false
             } else {
               this.failMessage = 'Incorrect password'
-              this.userEntry = ''
+              this.userWalletKey = ''
               this.isLoading = false
             }
           });
