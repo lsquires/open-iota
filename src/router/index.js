@@ -20,23 +20,23 @@ export default new Router({
           name: 'Search',
           component: Search,
           props: true
-        },
-        {
-          path: '/create-wallet',
-          name: 'Create',
-          component: CreateWallet
-        },
-        {
-          path: '/import-wallet',
-          name: 'Import',
-          component: ImportWallet
-        },
-        {
-          path: '/other',
-          name: 'Other',
-          component: Other
         }
       ]
+    },
+    {
+      path: '/create-wallet',
+      name: 'Create',
+      component: CreateWallet
+    },
+    {
+      path: '/import-wallet',
+      name: 'Import',
+      component: ImportWallet
+    },
+    {
+      path: '/other',
+      name: 'Other',
+      component: Other
     }
   ]
 })
