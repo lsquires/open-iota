@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Search from '@/components/Search'
 import CreateWallet from '@/components/CreateWallet'
 import ImportWallet from '@/components/ImportWallet'
+import Other from '@/components/Other'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
           path: '/import-wallet',
           name: 'Import',
           component: ImportWallet
+        },
+        {
+          path: '/other',
+          name: 'Other',
+          component: Other
         }
       ]
     }

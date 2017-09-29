@@ -127,6 +127,8 @@
 <script>
   import IOTA from 'iota.lib.js'
 
+  //TODO HTTPS notification
+  //TODO Guide section
   export default {
     name: 'app',
     data () {
