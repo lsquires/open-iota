@@ -143,7 +143,9 @@
           'http://node02.iotatoken.nl:14265',
           'http://node03.iotatoken.nl:14265',
           'http://mainnet.necropaz.com:14500',
-          'http://node.lukaseder.de:14265'
+          'http://node.lukaseder.de:14265',
+          'http://iotanode.prizziota.com:80',
+          'https://iotanode.prizziota.com:443'
         ],
         iota: {
           status: '',
