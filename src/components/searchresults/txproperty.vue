@@ -137,6 +137,20 @@
       </div>
     </div>
 
+    <div class="panel-block txrow">
+      <div class="columns">
+        <div class="column is-one-quarter content">
+          ASCII Decoded Message
+        </div>
+        <div class="column is-three-quarters field control">
+          <textarea readonly spellcheck="false" class="textarea"
+                    style="white-space: normal; font-size: small; font-family: Monospace; padding: 8px;">
+            {{ decodedAsciiFromMessage(iota, tx) }}
+          </textarea>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -148,7 +162,19 @@
   export default {
     name: 'tx-property',
     mixins: [ValueHelper],
-    props: ['tx', 'iota']
+    props: ['tx', 'iota'],
+    methods: {
+      decodedAsciiFromMessage: (iota, tx) => {
+        let message = tx.signatureMessageFragment
+        if (message.length <= 0) {
+          return ''
+        }
+        if (message.length % 2 === 1) {
+          message = message.slice(0, -1)
+        }
+        return iota.utils.fromTrytes(message)
+      }
+    }
   }
 </script>
 
